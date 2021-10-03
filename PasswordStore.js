@@ -1,17 +1,16 @@
 var onload = () => {
-    SignUpFrame();
-    //MainFunction();
+    LoadFunction();
 }
 
-// function MainFunction() {
-//     let UN = getCookie('UN');
-//     let PW = getCookie('PW');
-//     if (UN && PW) {
-//         Login(UN, PW); // Dealing with case where log in fails?
-//         return;
-//     }
-//     LoginFrame();
-// }
+function LoadFunction() {
+    let UN = getCookie('UN');
+    let PW = getCookie('PW');
+    if (UN && PW) {
+        Login(UN, PW);
+        return;
+    }
+    SignUpFrame();
+}
 
 function SignUpFrame() {
     let sPage = "";
@@ -81,7 +80,7 @@ function LoginFrame() {
     sPage += "</div>";
 
     sPage += "<div class='UsernameBox'>";
-    sPage += "<input type='button' class='LoginButton' value='Log In'>"; // onClick='CheckLogin()'
+    sPage += "<input type='button' class='LoginButton' value='Log In' onClick='CheckLogin()'>";
     sPage += "</div>";
 
     sPage += "<div class='LoginHeader'>";
@@ -90,6 +89,22 @@ function LoginFrame() {
     sPage += "<input type='checkbox' id='StayLoggedIn' checked>"
     sPage += "</div>";
 
+    sPage += "</div>";
+
+    sPage += "<div class='GitHubImgLogin'>";
+    sPage += "<a href='https://github.com/jparker2006/PasswordStore'>";
+    sPage += "<img src='Images/GitHub48.png' title='feel free to look at and edit all the code behind this project'>";
+    sPage += "</a>";
+    sPage += "</div>";
+
+    sPage += "<div id='Toast' class='Toast'></div>";
+
+    document.getElementById("Main").innerHTML = sPage;
+}
+
+function MainMenuFrame() { // here for testing
+    let sPage = "";
+    sPage += "<div class='LoginFrame'>";
     sPage += "</div>";
 
     sPage += "<div class='GitHubImgLogin'>";
@@ -122,12 +137,12 @@ function AccountDataCheck() {
     document.getElementById('Feedback').innerHTML = "";
     CreateAccount();
 }
-/*
+
 function CreateAccount() {
     let objNewAccount = {};
     objNewAccount.username = document.getElementById('Username').value.trim();
     let sPW = document.getElementById('Password').value.trim();
-    objNewAccount.password = HashThis(sPW, 5);
+    objNewAccount.password = HashThis(sPW, 25);
 
     if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
         setCookie('UN', objNewAccount.username, 999);
@@ -138,63 +153,38 @@ function CreateAccount() {
     postFileFromServer("PasswordStore.php", "NewAccount=" + encodeURIComponent(jsonNewAccount), NewAccountCallback);
     function NewAccountCallback(data) {
         if (data) {
-            //PickAGameFrame();
             Toast("Account created");
+            MainMenuFrame();
         }
-        else {
-            Toast("Account creation failed.");
-        }
+        else
+            Toast("Account creation failed");
     }
-}*/
+}
 
-// function Login (UN, PW) {
-//     let objCredentials = {};
-//     objCredentials.un = UN;
-//     objCredentials.pw = PW;
-//     let jsonCredentials = JSON.stringify (objCredentials);
-//     postFileFromServer("Games.php", "LogIn=" + encodeURIComponent(jsonCredentials), LogInCallback);
-//     function LogInCallback(data) {
-//         if (data) {
-//             g_objUserData = JSON.parse(data);
-//             PickAGameFrame();
-//             Toast(g_objUserData.first + " " + g_objUserData.last + " is logged in");
-//         }
-//         else {
-//             g_objUserData = null;
-//             FeedbackFrame("Ruh-roh!", "<span style='color: red;'>Log in failed.</span>");
-//             Toast("Log in failed");
-//         }
-//     }
-// }
+function Login (UN, PW) {
+    let objCredentials = {};
+    objCredentials.un = UN;
+    objCredentials.pw = PW;
+    let jsonCredentials = JSON.stringify (objCredentials);
+    postFileFromServer("PasswordStore.php", "LogIn=" + encodeURIComponent(jsonCredentials), LogInCallback);
+    function LogInCallback(data) {
+        if (data)
+            MainMenuFrame();
+        else
+            Toast("Login failed");
+    }
+}
 
-// function CheckLogin() {
-//     let UN = document.getElementById('LoginUsername').value.trim();
-//     let PW = document.getElementById('LoginPassword').value.trim();
-//     PW = HashThis(PW, 5);
-//     if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
-//         setCookie('UN', UN, 999);
-//         setCookie('PW', PW, 999);
-//     }
-//     console.log(UN + " : " + PW);
-//     Login(UN, PW);
-// }
-
-// function CheckUserNameAvail() {
-//     let sUN = document.getElementById('Username').value.trim();
-//     if (2 < sUN.length)
-//         postFileFromServer("Games.php", "CheckUNAvail=" + encodeURIComponent(sUN), UserNameAvailCallback);
-//     function UserNameAvailCallback (data) {
-//         if (data > 0) {
-//             Toast("Username already used.");
-//             document.getElementById('feedback').innerHTML = "Username already used.";
-//             document.getElementById('Username').focus();
-//         }
-//         else {
-//             Toast("Username valid");
-//             document.getElementById('feedback').innerHTML = "<span style='color: green'>Username valid.</span>";
-//         }
-//     }
-// }
+function CheckLogin() {
+    let UN = document.getElementById('Username').value.trim();
+    let PW = document.getElementById('Password').value.trim();
+    PW = HashThis(PW, 25);
+    if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
+        setCookie('UN', UN, 999);
+        setCookie('PW', PW, 999);
+    }
+    Login(UN, PW);
+}
 
 var HashThis = (sText, nRounds) => {
     for (let x = 0; x < nRounds; x++) {
@@ -202,33 +192,32 @@ var HashThis = (sText, nRounds) => {
     }
     return sText;
 }
+
 function Toast(sMess) {
     if (document.getElementById('Toast')) {
         document.getElementById('Toast').innerHTML = "<div class='ToastMsg'>"+sMess+"</div>";
         setTimeout(function(){ document.getElementById('Toast').innerHTML = ''; }, 5000);
     }
 }
+
 function setCookie(c_name, value, exdays) {
-    const d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    let expires = "expires="+ d.toUTCString();
-    document.cookie = c_name + "=" + value + ";" + exdays + ";path=/;SameSite=Strict";
+  var exdate=new Date();
+  exdate.setDate(exdate.getDate() + exdays);
+  var c_value=escape(value) + ((exdays===null) ? '' : '; expires='+exdate.toUTCString());
+  document.cookie=c_name + '=' + c_value;
 }
+
 function getCookie(c_name) {
-    let name = c_name + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
+  var i,x,y,ARRcookies = document.cookie.split(';');
+  for (i=0;i<ARRcookies.length;i++) {
+    x=ARRcookies[i].substr(0,ARRcookies[i].indexOf('='));
+    y=ARRcookies[i].substr(ARRcookies[i].indexOf('=')+1);
+    x=x.replace(/^\s+|\s+$/g,'');
+    if (x===c_name)
+      return unescape(y);
+  }
 }
+
 function postFileFromServer(url, sData, doneCallback) {
     var xhr;
     xhr = new XMLHttpRequest();
