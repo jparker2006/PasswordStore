@@ -1,5 +1,5 @@
 var onload = () => {
-    LoginFrame();
+    SignUpFrame();
     //MainFunction();
 }
 
@@ -13,13 +13,12 @@ var onload = () => {
 //     LoginFrame();
 // }
 
-function LoginFrame() {
+function SignUpFrame() {
     let sPage = "";
     sPage += "<div class='LoginFrame'>";
 
     sPage += "<div class='LoginHeader RoundedBox'>";
     sPage += "Welcome to the Password Store\n";
-    //sPage += "<a href='https://github.com/jparker2006/PasswordStore' style='font-size: 14px; color: #7CB9E8;'>Feel free to look at the sites code</a>\n";
     sPage += "Sign Up Below";
     sPage += "</div>";
 
@@ -39,18 +38,67 @@ function LoginFrame() {
     sPage += "</div>";
 
     sPage += "<div class='UsernameBox'>";
-    sPage += "<input type='button' class='LoginButton' value='Create Account' onClick='CreateAccount()'>";
+    sPage += "<input type='button' class='LoginButton' value='Create Account' onClick='AccountDataCheck()'>";
     sPage += "</div>";
 
     sPage += "<div class='LoginHeader'>";
-    sPage += "<a href='https://github.com/jparker2006/PasswordStore' style='color: #7CB9E8;'>Already Have an Account?</a><br>";
+    sPage += "<a href=\"javascript:LoginFrame()\" style='color: #7CB9E8;'>Already Have an Account?</a><br>";
     sPage += "<label for='StayLoggedIn'> Stay Logged In?</label>";
     sPage += "<input type='checkbox' id='StayLoggedIn' checked>"
     sPage += "</div>";
 
+    sPage += "</div>";
+
+    sPage += "<div class='GitHubImgLogin' title='feel free to look at and edit all the code behind this project'>";
+    sPage += "<a href='https://github.com/jparker2006/PasswordStore'>";
+    sPage += "<img src='Images/GitHub48.png'>";
+    sPage += "</a>";
+    sPage += "</div>";
+
     sPage += "<div id='Toast' class='Toast'></div>";
 
+    document.getElementById("Main").innerHTML = sPage;
+}
+
+function LoginFrame() {
+    let sPage = "";
+    sPage += "<div class='LoginFrame'>";
+
+    sPage += "<div class='LoginHeader RoundedBox'>";
+    sPage += "Welcome back to the<br>Password Store<br>";
+    sPage += "Log in Below";
     sPage += "</div>";
+
+    sPage += "<div class='UsernameBox'>";
+    sPage += "<input type='text' id='Username' class='LoginTextbox' placeholder='Username' maxlength=14>";
+    sPage += "</div>";
+
+    sPage += "<div class='UsernameBox'>";
+    sPage += "<input type='password' id='Password' class='LoginTextbox' placeholder='Password'>";
+    sPage += "</div>";
+
+    sPage += "<div id='Feedback' class='LoginFeedback'>";
+    sPage += "</div>";
+
+    sPage += "<div class='UsernameBox'>";
+    sPage += "<input type='button' class='LoginButton' value='Log In'>"; // onClick='CheckLogin()'
+    sPage += "</div>";
+
+    sPage += "<div class='LoginHeader'>";
+    sPage += "<a href=\"javascript:SignUpFrame()\" style='color: #7CB9E8;'>Don't Have an Account?</a><br>";
+    sPage += "<label for='StayLoggedIn'> Stay Logged In?</label>";
+    sPage += "<input type='checkbox' id='StayLoggedIn' checked>"
+    sPage += "</div>";
+
+    sPage += "</div>";
+
+    sPage += "<div class='GitHubImgLogin'>";
+    sPage += "<a href='https://github.com/jparker2006/PasswordStore'>";
+    sPage += "<img src='Images/GitHub48.png' title='feel free to look at and edit all the code behind this project'>";
+    sPage += "</a>";
+    sPage += "</div>";
+
+    sPage += "<div id='Toast' class='Toast'></div>";
 
     document.getElementById("Main").innerHTML = sPage;
 }
