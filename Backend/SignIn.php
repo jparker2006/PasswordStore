@@ -4,11 +4,15 @@ if (isset($_POST['NewAccount']))
     $jsonNewAccount = $_POST['NewAccount'];
 else if (isset($_POST['LogIn']))
     $jsonCredentials = $_POST['LogIn'];
+else if (isset($_POST['CheckUniqueUsername']))
+    $sUN = $_POST['CheckUniqueUsername'];
 
 if ($jsonNewAccount)
     $sFeedback = NewAccount ($jsonNewAccount);
 else if ($jsonCredentials)
     $sFeedback = LogIn ($jsonCredentials);
+else if ($sUN)
+    $sFeedback = CheckUNAvail ($sUN);
 
 echo $sFeedback;
 
@@ -53,5 +57,10 @@ function LogIn ($jsonCredentials) {
     return true;
 }
 
+function CheckUNAvail ($sUN) {
+    $sSQL = "SELECT * FROM Users WHERE username = '" . $sUN . "'";
+    $tResult = QueryDB ($sSQL);
+    return $tResult->num_rows != 0 ? true : null;
+}
 
 ?>

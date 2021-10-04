@@ -1,8 +1,4 @@
 var onload = () => {
-    LoadFunction();
-}
-
-function LoadFunction() {
     let UN = getCookie('UN');
     let PW = getCookie('PW');
     if (UN && PW) {
@@ -102,22 +98,6 @@ function LoginFrame() {
     document.getElementById("Main").innerHTML = sPage;
 }
 
-function MainMenuFrame() { // here for testing
-    let sPage = "";
-    sPage += "<div class='LoginFrame'>";
-    sPage += "</div>";
-
-    sPage += "<div class='GitHubImgLogin'>";
-    sPage += "<a href='https://github.com/jparker2006/PasswordStore'>";
-    sPage += "<img src='Images/GitHub48.png' title='feel free to look at and edit all the code behind this project'>";
-    sPage += "</a>";
-    sPage += "</div>";
-
-    sPage += "<div id='Toast' class='Toast'></div>";
-
-    document.getElementById("Main").innerHTML = sPage;
-}
-
 function AccountDataCheck() {
     let sUsername = document.getElementById('Username').value.trim();
     let sPassword = document.getElementById('Password').value.trim();
@@ -134,15 +114,28 @@ function AccountDataCheck() {
         document.getElementById('Feedback').innerHTML = "Password does not match confirm";
         return;
     }
-    document.getElementById('Feedback').innerHTML = "";
-    CreateAccount();
+    if (!(sUsername)) {
+        document.getElementById('Feedback').innerHTML = "Username taken";
+        return;
+    }
+    CheckUniqueUsername(sUsername);
+}
+
+function CheckUniqueUsername(sUsername) {
+    postFileFromServer("Backend/SignIn.php", "CheckUniqueUsername=" + encodeURIComponent(sUsername), CheckUniqueUsernameCallback);
+    function CheckUniqueUsernameCallback(data) {
+        if (data)
+            document.getElementById('Feedback').innerHTML = "Username taken";
+        else
+            CreateAccount();
+    }
 }
 
 function CreateAccount() {
     let objNewAccount = {};
     objNewAccount.username = document.getElementById('Username').value.trim();
     let sPW = document.getElementById('Password').value.trim();
-    objNewAccount.password = HashThis(sPW, 25);
+    objNewAccount.password = HashThis(sPW, 10000);
 
     if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
         setCookie('UN', objNewAccount.username, 999);
@@ -157,7 +150,7 @@ function CreateAccount() {
             MainMenuFrame();
         }
         else
-            Toast("Account creation failed");
+            document.getElementById('Feedback').innerHTML = "Account creation failed";
     }
 }
 
@@ -178,7 +171,7 @@ function Login (UN, PW) {
 function CheckLogin() {
     let UN = document.getElementById('Username').value.trim();
     let PW = document.getElementById('Password').value.trim();
-    PW = HashThis(PW, 25);
+    PW = HashThis(PW, 10000);
     if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
         setCookie('UN', UN, 999);
         setCookie('PW', PW, 999);
