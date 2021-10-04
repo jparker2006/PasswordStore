@@ -1,1 +1,44 @@
- 
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.MainMenuFrame {
+    background-color: #f8f8ff;
+    width: 335px;
+    height: 735px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.MainMenuHeader {
+    background-color: #6495ed;
+    width: 335px;
+    height: 65px;
+    border-bottom: 5px solid #2DA127;
+    border-radius: 4px 4px 0 0;
+}
+
+.MainMenuHeaderText {
+    width: 259px;
+    height: 53px;
+    float: left;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 23px;
+    font-weight: 600;
+    padding-top: 12px;
+    padding-left: 3px;
+}
+
+.HamburgerMenuContainer {
+    width: 64px;
+    height: 65px;
+    float: right;
+    cursor: pointer;
+}
+
+.MenuHeaderImageContainer {
+    width: 60px;
+    height: 53px;
+    float: left;
+    margin-right: 1px;
+    cursor: pointer;
+}

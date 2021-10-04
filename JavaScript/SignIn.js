@@ -33,7 +33,7 @@ function SignUpFrame() {
     sPage += "</div>";
 
     sPage += "<div class='UsernameBox'>";
-    sPage += "<input type='button' class='LoginButton' value='Create Account' onClick='AccountDataCheck()'>";
+    sPage += "<button class='LoginButton' onClick='AccountDataCheck()'>Create Account</button>";
     sPage += "</div>";
 
     sPage += "<div class='LoginHeader'>";
@@ -76,7 +76,7 @@ function LoginFrame() {
     sPage += "</div>";
 
     sPage += "<div class='UsernameBox'>";
-    sPage += "<input type='button' class='LoginButton' value='Log In' onClick='CheckLogin()'>";
+    sPage += "<button class='LoginButton' onClick='CheckLogin()'>Login</button>";
     sPage += "</div>";
 
     sPage += "<div class='LoginHeader'>";
@@ -135,12 +135,14 @@ function CreateAccount() {
     let objNewAccount = {};
     objNewAccount.username = document.getElementById('Username').value.trim();
     let sPW = document.getElementById('Password').value.trim();
-    objNewAccount.password = HashThis(sPW, 10000);
+    objNewAccount.password = HashThis(sPW, 3000); // pw stored in cookies is hashed 3000 times
 
     if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
         setCookie('UN', objNewAccount.username, 999);
         setCookie('PW', objNewAccount.password, 999);
     }
+
+    objNewAccount.password = HashThis(objNewAccount.password, 6000); // hash 6000 more times before sending to db (9000 total hashes)
 
     let jsonNewAccount = JSON.stringify(objNewAccount);
     postFileFromServer("Backend/SignIn.php", "NewAccount=" + encodeURIComponent(jsonNewAccount), NewAccountCallback);
@@ -155,6 +157,7 @@ function CreateAccount() {
 }
 
 function Login (UN, PW) {
+    PW = HashThis(PW, 6000); // hash 6000 more times
     let objCredentials = {};
     objCredentials.un = UN;
     objCredentials.pw = PW;
@@ -171,7 +174,7 @@ function Login (UN, PW) {
 function CheckLogin() {
     let UN = document.getElementById('Username').value.trim();
     let PW = document.getElementById('Password').value.trim();
-    PW = HashThis(PW, 10000);
+    PW = HashThis(PW, 3000);
     if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
         setCookie('UN', UN, 999);
         setCookie('PW', PW, 999);
