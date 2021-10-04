@@ -9,11 +9,11 @@
 }
 
 .MainMenuHeader {
-    background-color: #6495ed;
+    background-color: #f8f8ff;
+    color: cornflowerblue;
     width: 335px;
     height: 65px;
-    border-bottom: 5px solid #2DA127;
-    border-radius: 4px 4px 0 0;
+    border-radius: 5px 5px 0 0;
 }
 
 .MainMenuHeaderText {
@@ -41,4 +41,77 @@
     float: left;
     margin-right: 1px;
     cursor: pointer;
+}
+
+.MainMenuBody {
+    background-color: #f8f8ff;
+    width: 335px;
+    height: 430px;
+}
+
+.MenuDivider {
+    width: 335px;
+    height: 100px;
+    background-color: cornflowerblue;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: #f8f8ff;
+    cursor: pointer;
+    border-left: 3px solid cornflowerblue;
+    transition-duration: 0.3s;
+}
+
+.FirstDivider {
+    background-color: #f8f8ff;
+    color: cornflowerblue;
+    border-top: 3px solid cornflowerblue;
+    border-radius: 6px 0 0 0;
+}
+
+.ThirdDivider {
+    background-color: #f8f8ff;
+    color: cornflowerblue;
+}
+
+.FourthDivider {
+    border-radius: 0 0 6px 6px;
+    border-bottom: 3px solid cornflowerblue;
+}
+
+.FirstDivider:hover {
+    background-color: cornflowerblue;
+    color: #f8f8ff;
+}
+
+.SecondDivider:hover {
+    background-color: #f8f8ff;
+    color: cornflowerblue;
+}
+
+.ThirdDivider:hover {
+    background-color: cornflowerblue;
+    color: #f8f8ff;
+}
+
+.FourthDivider:hover {
+    border-radius: 0 0 0 6px;
+    background-color: #f8f8ff;
+    color: cornflowerblue;
+
+}
+
+.bouncy {
+    animation:bouncy 5s infinite linear;
+    position:relative;
+}
+@keyframes bouncy {
+    0%{top:0em}
+    40%{top:0em}
+    43%{top:-0.9em}
+    46%{top:0em}
+    48%{top:-0.4em}
+    50%{top:0em}
+    100%{top:0em;}
 }

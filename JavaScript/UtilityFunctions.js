@@ -22,26 +22,7 @@ function AESDecrypt(sEncrypt, sPassphrase) {
     return hex2a(CryptoJS.AES.decrypt(AESEncrypt(sEncrypt, sPassphrase), sPassphrase).toString());
 }
 
-function OnChangePlainText() {
-    var sMessage = document.getElementById('PlainTextForAES').value;
-    var sPassphrase = document.getElementById('AESPassphrase').value;
-    var encrypted = CryptoJS.AES.encrypt(sMessage, sPassphrase);
-    document.getElementById('CipherText').value = encrypted;
-    var decrypted = CryptoJS.AES.decrypt(encrypted, sPassphrase);
-    var sDecrypted = hex2a(decrypted.toString());
-    document.getElementById('DecryptedText').value = sDecrypted;
-    document.getElementById('Feedback').innerHTML = 'Length: ' + sDecrypted.length;
-}
 
-function OnChangeCryptoText() {
-    var sPassphrase = document.getElementById('AESPassphrase').value;
-    var encrypted = document.getElementById('CipherText').value;
-    var decrypted = CryptoJS.AES.decrypt(encrypted, sPassphrase);
-    var sDecrypted = hex2a(decrypted.toString());
-    document.getElementById('DecryptedText').value = sDecrypted;
-    document.getElementById('PlainTextForAES').value = sDecrypted;
-    document.getElementById('Feedback').innerHTML = 'Length: ' + sDecrypted.length;
-}
 // end of encryption functions
 
 function Toast(sMess) {
