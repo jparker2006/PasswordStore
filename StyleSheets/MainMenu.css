@@ -102,6 +102,20 @@
 
 }
 
+.AboutFrame {
+    background-color: #f8f8ff;
+    width: 335px;
+    height: 735px;
+    margin-left: auto;
+    margin-right: auto;
+    color: cornflowerblue;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    padding-top: 12px;
+}
+
 .bouncy {
     animation:bouncy 5s infinite linear;
     position:relative;
