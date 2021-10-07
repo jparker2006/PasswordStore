@@ -13,17 +13,17 @@ function MainMenuFrame() {
 
     sPage += "</div>"; // MainMenuHeader
 
-    sPage += "<div class='MainMenuBody'>";
+    sPage += "<div class='MainMenuBody RoundedBox'>";
 
-    sPage += "<div class='MenuDivider FirstDivider'>"; // view passwords
+    sPage += "<div class='MenuDivider FirstDivider' onClick='ViewPasswordsFrame()'>"; // view passwords
     sPage += "<br>View Passwords";
     sPage += "</div>";
 
-    sPage += "<div class='MenuDivider SecondDivider'>"; // add password
+    sPage += "<div class='MenuDivider SecondDivider' onClick='AddPasswordsFrame()'>"; // add password
     sPage += "<br>Store a Password";
     sPage += "</div>";
 
-    sPage += "<div class='MenuDivider ThirdDivider'>";  // minus password
+    sPage += "<div class='MenuDivider ThirdDivider' onClick='LosePasswordsFrame()'>";  // minus password
     sPage += "<br>Delete Stored Password";
     sPage += "</div>";
 
