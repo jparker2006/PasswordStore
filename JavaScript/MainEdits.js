@@ -84,21 +84,29 @@ function AddPassword() {
         document.getElementById("Feedback").innerHTML = "Enter A Password";
         return;
     }
-    document.getElementById("Feedback").innerHTML = "Entry Successful";
+
+    let sUserPW = getCookie('PW');
+    let sKey = HashThis(sUserPW, 3000);
+    let ePassword = AESEncrypt(sPW, sKey);
+    ePassword = encodeURIComponent(ePassword);
+
     let objPasswordData = {};
     objPasswordData.username = getCookie('UN');
     objPasswordData.site = sSite;
-    //var aes256 = require('aes256');
-    let sUserPW = getCookie('PW');
-    let sKey = HashThis(sUserPW, 3000);
+    objPasswordData.password = ePassword;
 
     let jsonPasswordData = JSON.stringify(objPasswordData);
-    alert(jsonPasswordData);
-    return;
-    postFileFromServer("Main.php", "StorePW=" + encodeURIComponent(jsonPasswordData), StorePWCallback);
+    postFileFromServer("Backend/Main.php", "StorePW=" + encodeURIComponent(jsonPasswordData), StorePWCallback);
     function StorePWCallback(data) {
-        alert(data);
+        if (data) {
+            MainMenuFrame();
+            Toast("Password Stored");
+        }
+        else
+            Toast("RUH ROH! entry did not work");
     }
 }
 
+
+// decryptedPW = AESDecrypt(decodeURIComponent(data), sKey);
 

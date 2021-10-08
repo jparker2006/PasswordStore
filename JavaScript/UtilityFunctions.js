@@ -14,14 +14,15 @@ function hex2a(hex) {
     return str;
 }
 
-function AESEncrypt(sEncrypt, sPassphrase) {
-    return CryptoJS.AES.encrypt(sEncrypt, sPassphrase);
+function AESEncrypt(sTextToEncrypt, sKey) {
+    return CryptoJS.AES.encrypt(sTextToEncrypt, sKey);
 }
 
-function AESDecrypt(sEncrypt, sPassphrase) {
-    return hex2a(CryptoJS.AES.decrypt(AESEncrypt(sEncrypt, sPassphrase), sPassphrase).toString());
+function AESDecrypt(sEncryptedText, sKey) {
+    let decryptedText = CryptoJS.AES.decrypt(sEncryptedText, sKey);
+    let sDecrypted = hex2a(decryptedText.toString());
+    return sDecrypted;
 }
-
 
 // end of encryption functions
 

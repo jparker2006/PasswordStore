@@ -1,41 +1,27 @@
 <?php
 
-if (isset($_POST['GetPasswordAll']))
-    $sUN = $_POST['GetPasswordAll'];
+if (isset($_POST['StorePW']))
+    $jsonPasswordData = $_POST['StorePW'];
 
-if ($sUN)
-    $sFeedback = GetPasswordAll ($sUN);
+if ($jsonPasswordData)
+    $sFeedback = StorePW ($jsonPasswordData);
 
 echo $sFeedback;
 
-function QueryDB ($sSQL) {
+function StorePW ($jsonPasswordData) {
+    $objPasswordData = json_decode($jsonPasswordData);
     $dbhost = 'localhost';
     $dbuser = 'password_store_site';
     $dbpass = 'wDFlsO5daFteekyk';
     $db = "passwordstore";
     $dbconnect = new mysqli($dbhost, $dbuser, $dbpass, $db);
-    $Result = $dbconnect->query($sSQL);
-    $dbconnect->close();
-    return $Result;
+
+    $stmt = $dbconnect->prepare("INSERT INTO Passwords (user, passwordFor, password) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $objPasswordData->username, $objPasswordData->site, $objPasswordData->password);
+    $bStatus = $stmt->execute();
+    $stmt->close();
+    return $bStatus;
 }
-
-function GetPasswordAll ($sUN) {
-    return $sUN;
-}
-
-
-
-
-/*
-CREATE TABLE Passwords (
-user VARCHAR(30) PRIMARY KEY,
-password VARCHAR(300),
-domain VARCHAR(70),
-company VARCHAR(60)
-)
-
-*/
-
 
 ?>
 
