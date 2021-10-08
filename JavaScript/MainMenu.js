@@ -13,7 +13,7 @@ function MainMenuFrame() {
 
     sPage += "</div>"; // MainMenuHeader
 
-    sPage += "<div class='MainMenuBody RoundedBox'>";
+    sPage += "<div class='MainMenuBody'>";
 
     sPage += "<div class='MenuDivider FirstDivider' onClick='ViewPasswordsFrame()'>"; // view passwords
     sPage += "<br>View Passwords";
