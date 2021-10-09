@@ -13,7 +13,7 @@ function ViewPasswordsFrame() {
     sPage += "<div class='BackButton RoundedBox' title='Back' onClick='MainMenuFrame()'>&laquo</div>";
     sPage += "</div>"; // header
 
-    sPage += "<div class='MainMenuBody' id='ViewPWsBody'>";
+    sPage += "<div class='MainMenuBody' id='ViewPWsBody' style='border:solid;'>";
     sPage += "</div>";
 
     sPage += "</div>";
@@ -44,7 +44,7 @@ function AddPasswordsFrame() {
     sPage += "</div>";
 
     sPage += "<div class='TextboxContainers'>"; // site name
-    sPage += "<input type='text' id='SiteName' class='PasswordTextbox' placeholder='Website Name' maxlength=30>";
+    sPage += "<input type='text' id='SiteName' class='PasswordTextbox' placeholder='Website Name' maxlength=15>";
     sPage += "</div><br>";
 
     sPage += "<div class='TextboxContainers'>"; // password
@@ -64,9 +64,6 @@ function AddPasswordsFrame() {
     document.getElementById("Main").innerHTML = sPage;
 }
 
-function LosePasswordsFrame() {
-}
-
 function GetPasswords() {
     let sUsername = getCookie('UN');
     postFileFromServer("Backend/Main.php", "GetAllPasswords=" + encodeURIComponent(sUsername), GetAllCallback);
@@ -81,20 +78,12 @@ function GetPasswords() {
             sPage += "No passwords currently stored";
             sPage += "</div>";
         }
-        else if (nLength < 5) {
+        else {
             for (let i=0; i<nLength; i++) {
-                sDecrypted = AESDecrypt(decodeURIComponent(objPasswords[i].password), sKey);
-                sPage += "<div class='PWContainers RoundedBox'>";
-                sPage += objPasswords[i].site + ":<br>" + sDecrypted;
+                let bEven = 0 == nLength % 2 ? true : false; // gonna change the style
+                sPage += "<div class='RoundedBox PWContainers' style='display: inline-block;'>";
+                sPage += objPasswords[i].site;
                 sPage += "</div>";
-            }
-        }
-        else { // cant page overflow with divs
-            for (let i=0; i<5; i++) {
-                sDecrypted = AESDecrypt(decodeURIComponent(objPasswords[i].password), sKey);
-                sPage += "<div class='PWContainers RoundedBox'>";
-                sPage += objPasswords[i].site + ":<br>" + sDecrypted;
-                sPage += "</div><br>";
             }
         }
         document.getElementById("ViewPWsBody").innerHTML = sPage;
@@ -136,5 +125,5 @@ function AddPassword() {
 }
 
 
-//
 
+// sDecrypted = AESDecrypt(decodeURIComponent(objPasswords[i].password), sKey);

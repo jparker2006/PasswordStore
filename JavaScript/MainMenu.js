@@ -23,11 +23,7 @@ function MainMenuFrame() {
     sPage += "<br>Store a Password";
     sPage += "</div>";
 
-    sPage += "<div class='MenuDivider ThirdDivider' onClick='LosePasswordsFrame()'>";  // minus password
-    sPage += "<br>Delete Stored Password";
-    sPage += "</div>";
-
-    sPage += "<div class='MenuDivider FourthDivider'>"; // contact me
+    sPage += "<div class='MenuDivider ThirdDivider'>"; // contact me
     sPage += "<br>Contact Me";
     sPage += "</div>";
 

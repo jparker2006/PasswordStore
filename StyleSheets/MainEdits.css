@@ -90,14 +90,16 @@
 }
 
 .PWContainers {
-    width: 330px;
-    height: 60px;
+    width: 165px;
+    height: 70px;
     color: cornflowerblue;
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
-    border: solid;
+    border: 2.5px cornflowerblue solid;
     text-align: center;
     font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
 }
 
 
