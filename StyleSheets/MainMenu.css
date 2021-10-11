@@ -64,42 +64,35 @@
 }
 
 .FirstDivider {
-    background-color: #f8f8ff;
-    color: cornflowerblue;
+    background-color: cornflowerblue;
     border-top: 3px solid cornflowerblue;
     border-radius: 6px 0 0 0;
 }
 
-.ThirdDivider {
-    background-color: #f8f8ff;
+.SecondDivider {
     color: cornflowerblue;
+    background-color: #f8f8ff;
 }
 
-.FourthDivider {
+.ThirdDivider {
     border-radius: 0 0 6px 6px;
     border-bottom: 3px solid cornflowerblue;
 }
 
 .FirstDivider:hover {
-    background-color: cornflowerblue;
-    color: #f8f8ff;
+    background-color: #f8f8ff;
+    color: cornflowerblue;
 }
 
 .SecondDivider:hover {
-    background-color: #f8f8ff;
-    color: cornflowerblue;
-}
-
-.ThirdDivider:hover {
     background-color: cornflowerblue;
     color: #f8f8ff;
 }
 
-.FourthDivider:hover {
+.ThirdDivider:hover {
     border-radius: 0 0 0 6px;
     background-color: #f8f8ff;
     color: cornflowerblue;
-
 }
 
 .AboutFrame {
