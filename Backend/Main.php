@@ -4,11 +4,15 @@ if (isset($_POST['StorePW']))
     $jsonPasswordData = $_POST['StorePW'];
 else if (isset($_POST['GetAllPasswords']))
     $sUN = $_POST['GetAllPasswords'];
+else if (isset($_POST['DeletePW']))
+    $nID = $_POST['DeletePW'];
 
 if ($jsonPasswordData)
     $sFeedback = StorePW ($jsonPasswordData);
 else if ($sUN)
     $sFeedback = GetAllPasswords ($sUN);
+else if ($nID)
+    $sFeedback = DeletePW ($nID);
 
 echo $sFeedback;
 
@@ -49,10 +53,27 @@ function GetAllPasswords ($sUN) {
             $objPasswords[$x] = new stdClass();
             $objPasswords[$x]->site = $row["passwordFor"];
             $objPasswords[$x]->password = $row["password"];
+            $objPasswords[$x]->pwID = $row["id"];
         }
     }
     return json_encode($objPasswords);
 }
+
+function DeletePW ($nID) {
+    $sSQL = "DELETE FROM Passwords WHERE id=" . $nID;
+    return QueryDB($sSQL) ? true : null;
+}
+
+
+/*
+CREATE TABLE Passwords (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user VARCHAR(35),
+    passwordFor VARCHAR(60),
+    password VARCHAR(100)
+);
+
+*/
 
 ?>
 
