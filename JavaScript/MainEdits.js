@@ -83,8 +83,9 @@ function GetPasswords() {
         else {
             for (let i=0; i<nLength; i++) {
                 let sPW = AESDecrypt(decodeURIComponent(objPasswords[i].password), sKey);
-                sPage += "<div class='RoundedBox PWContainers' onClick='ShowPW(\"" + sPW + "\", " + objPasswords[i].pwID + ", \"" + objPasswords[i].site + "\")'>";
-                sPage += objPasswords[i].site;
+                let sSite = AESDecrypt(decodeURIComponent(objPasswords[i].site), sKey);
+                sPage += "<div class='RoundedBox PWContainers' onClick='ShowPW(\"" + sPW + "\", " + objPasswords[i].pwID + ", \"" + sSite + "\")'>";
+                sPage += sSite;
                 sPage += "</div>";
             }
         }
@@ -138,11 +139,13 @@ function AddPassword() {
     let sUserPW = getCookie('PW');
     let sKey = HashThis(sUserPW, 3000);
     let ePassword = AESEncrypt(sPW, sKey);
+    let eSite = AESEncrypt(sSite, sKey);
     ePassword = encodeURIComponent(ePassword);
+    eSite = encodeURIComponent(eSite);
 
     let objPasswordData = {};
     objPasswordData.username = getCookie('UN');
-    objPasswordData.site = sSite;
+    objPasswordData.site = eSite;
     objPasswordData.password = ePassword;
 
     let jsonPasswordData = JSON.stringify(objPasswordData);
@@ -169,9 +172,10 @@ function AJAXPws() {
         let sPWToSearchFor = document.getElementById("PWSearch").value;
         for (let i=0; i<nLength; i++) {
             let sPW = AESDecrypt(decodeURIComponent(objPasswords[i].password), sKey);
-            if (sPWToSearchFor == objPasswords[i].site.substring(0, sPWToSearchFor.length) || sPWToSearchFor == sPW.substring(0, sPWToSearchFor.length)) { // can search by pw or site
-                sPage += "<div class='PWContainers' onClick='ShowPW(\"" + sPW + "\", " + objPasswords[i].pwID + ", \"" + objPasswords[i].site + "\")'>";
-                sPage += objPasswords[i].site;
+            let sSite = AESDecrypt(decodeURIComponent(objPasswords[i].site), sKey);
+            if (sPWToSearchFor == sSite.substring(0, sPWToSearchFor.length) || sPWToSearchFor == sPW.substring(0, sPWToSearchFor.length)) { // can search by pw or site
+                sPage += "<div class='PWContainers' onClick='ShowPW(\"" + sPW + "\", " + objPasswords[i].pwID + ", \"" + sSite + "\")'>";
+                sPage += sSite;
                 sPage += "</div>";
             }
         }
