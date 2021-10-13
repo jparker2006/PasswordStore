@@ -23,8 +23,8 @@ function MainMenuFrame() {
     sPage += "<br>Store a Password";
     sPage += "</div>";
 
-    sPage += "<div class='MenuDivider ThirdDivider'>"; // contact me
-    sPage += "<br>Contact Me";
+    sPage += "<div class='MenuDivider ThirdDivider' onClick='WriteAllDataToFile()'>";
+    sPage += "<br>Write Data To File";
     sPage += "</div>";
 
     sPage += "</div>"; // MainMenuBody
@@ -79,10 +79,9 @@ function AboutProjectFrame() {
     sPage += "<div class='AboutFrame RoundedBox'>";
     sPage += "Welcome to Password Store<br><br>";
     sPage += "This site uses AES-256 encryption and SHA3-256 hashing to make sure your passwords kept safe and secure<br><br>";
-    sPage += "The best part is that I (the programmer) never get see your password or send it across the internet<br><br>";
+    sPage += "The best part is that no one ever gets to see any of your data<br><br>";
     sPage += "But dont trust me trust my code<br><br>";
-    sPage += "Password Store is completely open sourced on <a href='https://github.com/jparker2006/PasswordStore'>github</a><br><br>";
-    sPage += "If you have any questions you can contact me <a>here</a><br><br>"; // add when contact me is updated
+    sPage += "This website is completely open sourced on <a href='https://github.com/jparker2006/PasswordStore'>github</a><br><br>";
     sPage += "<div class='MenuDivider' onClick='MainMenuFrame()'>"; // view passwords
     sPage += "<br>Back To Menu";
     sPage += "</div>";

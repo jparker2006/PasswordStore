@@ -122,6 +122,7 @@ function AccountDataCheck() {
 }
 
 function CheckUniqueUsername(sUsername) {
+    sUsername = HashThis(sUsername, 5000);
     postFileFromServer("Backend/SignIn.php", "CheckUniqueUsername=" + encodeURIComponent(sUsername), CheckUniqueUsernameCallback);
     function CheckUniqueUsernameCallback(data) {
         if (data)
@@ -133,7 +134,7 @@ function CheckUniqueUsername(sUsername) {
 
 function CreateAccount() {
     let objNewAccount = {};
-    objNewAccount.username = document.getElementById('Username').value.trim();
+    objNewAccount.username = HashThis(document.getElementById('Username').value.trim(), 5000);
     let sPW = document.getElementById('Password').value.trim();
     objNewAccount.password = HashThis(sPW, 3000); // pw stored in cookies is hashed 3000 times
 
@@ -174,6 +175,7 @@ function Login (UN, PW) {
 function CheckLogin() {
     let UN = document.getElementById('Username').value.trim();
     let PW = document.getElementById('Password').value.trim();
+    UN = HashThis(UN, 5000);
     PW = HashThis(PW, 3000);
     if (document.getElementById('StayLoggedIn').checked) { // Save username & hashed PW cookies
         setCookie('UN', UN, 999);

@@ -35,8 +35,8 @@ function StorePW ($jsonPasswordData) {
     $db = "passwordstore";
     $dbconnect = new mysqli($dbhost, $dbuser, $dbpass, $db);
 
-    $stmt = $dbconnect->prepare("INSERT INTO Passwords (user, passwordFor, password) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $objPasswordData->username, $objPasswordData->site, $objPasswordData->password);
+    $stmt = $dbconnect->prepare("INSERT INTO Passwords (user, passwordFor, password, usernameFor, notes) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $objPasswordData->username, $objPasswordData->site, $objPasswordData->password, $objPasswordData->siteUsername, $objPasswordData->notes);
     $bStatus = $stmt->execute();
     $stmt->close();
     return $bStatus;
@@ -53,6 +53,8 @@ function GetAllPasswords ($sUN) {
             $objPasswords[$x] = new stdClass();
             $objPasswords[$x]->site = $row["passwordFor"];
             $objPasswords[$x]->password = $row["password"];
+            $objPasswords[$x]->username = $row["usernameFor"];
+            $objPasswords[$x]->notes = $row["notes"];
             $objPasswords[$x]->pwID = $row["id"];
         }
     }
@@ -68,9 +70,11 @@ function DeletePW ($nID) {
 /*
 CREATE TABLE Passwords (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    user VARCHAR(35),
-    passwordFor VARCHAR(60),
-    password VARCHAR(100)
+    user VARCHAR(150),
+    passwordFor VARCHAR(150),
+    password VARCHAR(520),
+    usernameFor VARCHAR(160),
+    notes VARCHAR(1000)
 );
 
 */
