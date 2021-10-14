@@ -57,7 +57,7 @@
     font-size: 25px;
     background-color: cornflowerblue;
     color: #f8f8ff;
-    border: 0.5px solid #f8f8ff;
+    border: none;
     border-radius: 8px;
     transition-duration: 1s;
 }
@@ -151,7 +151,6 @@
     width: 220px;
     margin-left: auto;
     margin-right: auto;
-    transition-duration: 0.4s;
 }
 
 .ConfirmPasswordDelete:hover {

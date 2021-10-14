@@ -41,16 +41,20 @@ function AddPasswordsFrame() {
 
     sPage += "<div class='MainMenuBody' id='ViewPWsBody'>";
 
-    sPage += "<div class='TextboxContainers'>"; // user name
-    sPage += "<input type='text' id='Username' class='PasswordTextbox' placeholder='Username On Site' maxlength=25>";
+    sPage += "<div class='TextboxContainers'>"; // site name
+    sPage += "<input type='text' id='SiteName' class='PasswordTextbox' placeholder='Website/Account Name' maxlength=30>";
     sPage += "</div><br>";
 
-    sPage += "<div class='TextboxContainers'>"; // site name
-    sPage += "<input type='text' id='SiteName' class='PasswordTextbox' placeholder='Website Name' maxlength=30>";
+    sPage += "<div class='TextboxContainers'>"; // user name
+    sPage += "<input type='text' id='Username' class='PasswordTextbox' placeholder='Username' maxlength=25>";
     sPage += "</div><br>";
 
     sPage += "<div class='TextboxContainers'>"; // password
     sPage += "<input type='text' id='Password' class='PasswordTextbox' placeholder='Password' maxlength=150>";
+    sPage += "</div><br>";
+
+    sPage += "<div class='TextboxContainers ConfirmPassword' style='margin-right: auto; margin-left: auto; font-size: 20px; height: 35px; width: 220px;' onClick='MakeRandPass()'>";
+    sPage += "Suggest a password";
     sPage += "</div><br>";
 
     sPage += "<div class='TextboxContainers'>"; // notes
@@ -59,7 +63,7 @@ function AddPasswordsFrame() {
 
     sPage += "<div class='TextboxContainers ConfirmPassword' onClick='AddPassword()'>"; // confirm
     sPage += "Add!";
-    sPage += "</div>";
+    sPage += "</div><br>";
 
     sPage += "</div>"; // body
 
@@ -68,6 +72,7 @@ function AddPasswordsFrame() {
     sPage += "<div id='Toast' class='Toast'></div>";
 
     document.getElementById("Main").innerHTML = sPage;
+    document.getElementById('SiteName').focus();
 }
 
 function GetPasswords() {
@@ -126,9 +131,9 @@ function ShowPW(sPW, nID, sSite, sUsername, sNotes) {
     sPage += sPW;
     sPage += "</div>";
 
-    sPage += "<div class='PWShowContainer' style='overflow-x: scroll;'>More notes: <br>";
+    sPage += "<div class='PWShowContainer' style='overflow-x: scroll; height: 180px'>More notes: <br>";
     sPage += sNotes;
-    sPage += "</div><br>";
+    sPage += "</div>";
 
     sPage += "<div class='TextboxContainers ConfirmPasswordDelete' onClick='DeletePassword("+nID+")'>";
     sPage += "Delete Password Data";
@@ -230,5 +235,47 @@ function DeletePassword(nID) {
 }
 
 function WriteAllDataToFile() { // write everything to a file
-    alert("HEEHEEHAWHAW");
+    let sFileName = prompt("Please enter a filename", "");
+    if (0 == sFileName.length) {
+        Toast("Invalid file name");
+        return;
+    }
+    let sUsername = getCookie('UN');
+    postFileFromServer("Backend/Main.php", "GetAllPasswords=" + encodeURIComponent(sUsername), GetAllDataCallback);
+    function GetAllDataCallback(data) {
+        let objData = JSON.parse(data);
+        let nLength = objData.length;
+        if (0 == nLength) {
+            Toast("No data to write");
+            return;
+        }
+        var a = document.createElement("a");
+        a.download = sFileName + ".txt";
+        let sUserPW = getCookie('PW');
+        let sKey = HashThis(sUserPW, 3000);
+        let sData = "";
+        for (let i=0; i<nLength; i++) {
+            let sSite = AESDecrypt(decodeURIComponent(objData[i].site), sKey);
+            sData += "Site: " + sSite + "\n";
+            let sUsername = AESDecrypt(decodeURIComponent(objData[i].username), sKey);
+            if ("" != sUsername)
+                sData += "Username: " + sUsername + "\n";
+            let sPW = AESDecrypt(decodeURIComponent(objData[i].password), sKey);
+            sData += "Password: " + sPW + "\n";
+            let sNotes = AESDecrypt(decodeURIComponent(objData[i].notes), sKey);
+            if ("" != sNotes)
+                sData += "Additional notes: " + sNotes;
+            sData += "\n\n\n";
+        }
+        a.href = window.URL.createObjectURL(new Blob([sData], {type: "text/plain"}));
+        a.click();
+    }
+}
+
+function MakeRandPass() {
+    let sCode = '';
+    for (var i = 0; i < 15; i += 1) {
+        sCode += GetRandomCharacter()
+    }
+    document.getElementById('Password').value = sCode;
 }
